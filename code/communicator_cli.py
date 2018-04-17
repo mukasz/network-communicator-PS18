@@ -29,7 +29,8 @@ if __name__ == '__main__':
         soc.send( bytearray( username ) ) #trying to loggin
         reply = soc.recv(128)
         print reply + '\n'
-        #reply = soc.recv(128)
+        if reply == 'Login:    OK':
+            
         
     except socket.error as e:
         sys.stderr.write("Socket error({0}): {1}".format(e.errno, e.strerror))

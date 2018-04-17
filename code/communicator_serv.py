@@ -26,6 +26,7 @@ class ClientConnection( threading.Thread ):
     def run( self ):
         #self.conn.send('Polaczono')
         try:
+            conn.send( bytearray('serv will disconnect') )
             self.conn.close()
         finally:
             print 'Host ' + str( self.remote_host ) + ' has disconnected'
@@ -55,6 +56,7 @@ if __name__ == '__main__':
             with users_lock:
                 if users.has_key( username ):
                     conn.send( bytearray('Login: NOTOK') )
+                    print 'Login notok'
                     conn.close()
                     break;
                 else:
@@ -65,7 +67,7 @@ if __name__ == '__main__':
                     connections[addr] = ClientConnection( conn, username, queue )
                     users[username] = (addr, True) #(addr, is_available)
                     
-                    connections[addr].run() #start nec connection-thread
+                    connections[addr].run() #start connection-thread
         
     except socket.error as e:
         print "Socket error({0}): {1}".format(e.errno, e.strerror)
